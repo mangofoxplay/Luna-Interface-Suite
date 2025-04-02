@@ -14,6 +14,9 @@ Fixed and legited version of Luna GUI
 > Some parts of code were commented as it unneeded for my purposes and might break something.
 > However, if you want bring features for exploits back, uncomment them. Should work, didn't test.
 
+
+You can download fully legit and not versions [here](https://github.com/mangofoxplay/Luna-Interface-Suite/tree/main/showcase), difference is the text inside gui.
+
 Scripts must be in StarterPlayerScripts. Example:
 
 ![Scripts must be in StarterPlayerScripts. Example:](https://raw.githubusercontent.com/mangofoxplay/Luna-Interface-Suite/refs/heads/main/showcase/Luna%20filetree.png)
