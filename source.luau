@@ -21,6 +21,7 @@ Latte Softworks and qweery | Lucide Icons And Material Icons
 kirill9655 | Loading Circle
 Deity/dp4pv/x64x70 | Certain Scripting and Testing ig
 
+mangofp | fixes
 ]]
 
 local Release = "Prerelease Beta 6.1"
@@ -35,10 +36,10 @@ local Localization = game:GetService("LocalizationService")
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
-local CoreGui = game:GetService("CoreGui")
+--local CoreGui = game:GetService("CoreGui")
 
-local isStudio
-local website = "github.com/Nebula-Softworks"
+--local isStudio
+--local website = "github.com/Nebula-Softworks"
 
 if RunService:IsStudio() then
 	isStudio = true
@@ -1535,7 +1536,7 @@ local IconModule = {
 }
 
 -- Other Variables
-local request = (syn and syn.request) or (http and http.request) or http_request or nil
+--local request = (syn and syn.request) or (http and http.request) or http_request or nil
 local tweeninfo = TweenInfo.new(0.3, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out)
 local PresetGradients = {
 	["Nightlight (Classic)"] = {Color3.fromRGB(147, 255, 239), Color3.fromRGB(201,211,233), Color3.fromRGB(255, 167, 227)},
@@ -1553,39 +1554,39 @@ local PresetGradients = {
 local function GetIcon(icon, source)
 	if source == "Custom" then
 		return "rbxassetid://" .. icon
-	elseif source == "Lucide" then
-		-- full credit to latte softworks :)
-		local iconData = not isStudio and game:HttpGet("https://raw.githubusercontent.com/latte-soft/lucide-roblox/refs/heads/master/lib/Icons.luau")
-		local icons = isStudio and IconModule.Lucide or loadstring(iconData)()
-		if not isStudio then
-			icon = string.match(string.lower(icon), "^%s*(.*)%s*$") :: string
-			local sizedicons = icons['48px']
+	--elseif source == "Lucide" then
+	--	-- full credit to latte softworks :)
+	--	local iconData = require(script.ModuleScript)	--not isStudio and 	require(script.ModuleScript)
+	--	local icons = isStudio and IconModule.Lucide or iconData
+	--	if not isStudio then
+	--		icon = string.match(string.lower(icon), "^%s*(.*)%s*$") :: string
+	--		local sizedicons = icons['48px']
 
-			local r = sizedicons[icon]
-			if not r then
-				error("Lucide Icons: Failed to find icon by the name of \"" .. icon .. "\.", 2)
-			end
+	--		local r = sizedicons[icon]
+	--		if not r then
+	--			error("Lucide Icons: Failed to find icon by the name of \"" .. icon .. "\.", 2)
+	--		end
 
-			local rirs = r[2]
-			local riro = r[3]
+	--		local rirs = r[2]
+	--		local riro = r[3]
 
-			if type(r[1]) ~= "number" or type(rirs) ~= "table" or type(riro) ~= "table" then
-				error("Lucide Icons: Internal error: Invalid auto-generated asset entry")
-			end
+	--		if type(r[1]) ~= "number" or type(rirs) ~= "table" or type(riro) ~= "table" then
+	--			error("Lucide Icons: Internal error: Invalid auto-generated asset entry")
+	--		end
 
-			local irs = Vector2.new(rirs[1], rirs[2])
-			local iro = Vector2.new(riro[1], riro[2])
+	--		local irs = Vector2.new(rirs[1], rirs[2])
+	--		local iro = Vector2.new(riro[1], riro[2])
 
-			local asset = {
-				id = r[1],
-				imageRectSize = irs,
-				imageRectOffset = iro,
-			}
+	--		local asset = {
+	--			id = r[1],
+	--			imageRectSize = irs,
+	--			imageRectOffset = iro,
+	--		}
 
-			return asset
-		else
-			return "rbxassetid://10723434557"
-		end
+	--		return asset
+	--	--else
+	--	--	return "rbxassetid://10723434557"
+	--	end
 	else	
 		if icon ~= nil and IconModule[source] then
 			local sourceicon = IconModule[source]
@@ -1635,15 +1636,15 @@ local function BlurModule(Frame)
 	local root = Instance.new('Folder', camera)
 	root.Name = 'LunaBlur'
 
-	local gTokenMH = 99999999
-	local gToken = math.random(1, gTokenMH)
+	--local gTokenMH = 99999999
+	--local gToken = math.random(1, gTokenMH)
 
 	local DepthOfField = Instance.new('DepthOfFieldEffect', game:GetService('Lighting'))
 	DepthOfField.FarIntensity = 0
 	DepthOfField.FocusDistance = 51.6
 	DepthOfField.InFocusRadius = 50
 	DepthOfField.NearIntensity = 6
-	DepthOfField.Name = "DPT_"..gToken
+	DepthOfField.Name = "DPT_ForLuna"--..gToken
 
 	local frame = Instance.new('Frame')
 	frame.Parent = Frame
@@ -1720,7 +1721,7 @@ local function BlurModule(Frame)
 
 			if not p0 then
 				p0 = Instance.new('Part')
-				p0.FormFactor = 'Custom'
+				--p0.FormFactor = 'Custom'
 				p0.TopSurface = 0
 				p0.BottomSurface = 0
 				p0.Anchored = true
@@ -1836,7 +1837,7 @@ local function unpackt(array : table)
 end
 
 -- Interface Management
-local LunaUI = isStudio and script.Parent:WaitForChild("Luna UI") or game:GetObjects("rbxassetid://86467455075715")[1]
+local LunaUI = script:WaitForChild("Luna UI") --isStudio and script:WaitForChild("Luna UI") or game:GetObjects("rbxassetid://86467455075715")[1]
 
 local SizeBleh = nil
 
@@ -1881,34 +1882,36 @@ local function Hide(Window, bind, notif)
 end
 
 
-if gethui then
-	LunaUI.Parent = gethui()
-elseif syn and syn.protect_gui then 
-	syn.protect_gui(LunaUI)
-	LunaUI.Parent = CoreGui
-elseif not isStudio and CoreGui:FindFirstChild("RobloxGui") then
-	LunaUI.Parent = CoreGui:FindFirstChild("RobloxGui")
-elseif not isStudio then
-	LunaUI.Parent = CoreGui
-end
+--if gethui then
+--	LunaUI.Parent = gethui()
+--elseif syn and syn.protect_gui then 
+--	syn.protect_gui(LunaUI)
+--	LunaUI.Parent = CoreGui
+--elseif not isStudio and CoreGui:FindFirstChild("RobloxGui") then
+--	LunaUI.Parent = CoreGui:FindFirstChild("RobloxGui")
+--elseif not isStudio then
+--	LunaUI.Parent = CoreGui
+--end
 
-if gethui then
-	for _, Interface in ipairs(gethui():GetChildren()) do
-		if Interface.Name == LunaUI.Name and Interface ~= LunaUI then
-			Hide(Interface.SmartWindow)
-			Interface.Enabled = false
-			Interface.Name = "Luna-Old"
-		end
-	end
-elseif not isStudio then
-	for _, Interface in ipairs(CoreGui:GetChildren()) do
-		if Interface.Name == LunaUI.Name and Interface ~= LunaUI then
-			Hide(Interface.SmartWindow)
-			Interface.Enabled = false
-			Interface.Name = "Luna-Old"
-		end
-	end
-end
+LunaUI.Parent = Player.PlayerGui  --CoreGui
+
+--if gethui then
+--	for _, Interface in ipairs(gethui():GetChildren()) do
+--		if Interface.Name == LunaUI.Name and Interface ~= LunaUI then
+--			Hide(Interface.SmartWindow)
+--			Interface.Enabled = false
+--			Interface.Name = "Luna-Old"
+--		end
+--	end
+--elseif not isStudio then
+--	for _, Interface in ipairs(CoreGui:GetChildren()) do
+--		if Interface.Name == LunaUI.Name and Interface ~= LunaUI then
+--			Hide(Interface.SmartWindow)
+--			Interface.Enabled = false
+--			Interface.Name = "Luna-Old"
+--		end
+--	end
+--end
 
 LunaUI.Enabled = false
 LunaUI.SmartWindow.Visible = false
@@ -2194,18 +2197,34 @@ local function Unhide(Window, currentTab)
 
 end
 
-local MainSize
-local MinSize 
-if Camera.ViewportSize.X > 774 and Camera.ViewportSize.Y > 503 then
-	MainSize = UDim2.fromOffset(675, 424)
-	MinSize = UDim2.fromOffset(500, 42)
-else
-	MainSize = UDim2.fromOffset(Camera.ViewportSize.X - 100, Camera.ViewportSize.Y - 100)
-	MinSize = UDim2.fromOffset(Camera.ViewportSize.X - 275, 42)
+--local MainSize
+--local MinSize 
+--if Camera.ViewportSize.X > 774 and Camera.ViewportSize.Y > 503 then
+--	MainSize = UDim2.fromOffset(675, 424)
+--	MinSize = UDim2.fromOffset(500, 42)
+--else
+--	MainSize = UDim2.fromOffset(Camera.ViewportSize.X - 100, Camera.ViewportSize.Y - 100)
+--	MinSize = UDim2.fromOffset(Camera.ViewportSize.X - 275, 42)
+--end
+
+-- Size Calculation Function (make this a function)
+local function calculateSizes()
+	local MainSize, MinSize
+	if Camera.ViewportSize.X > 774 and Camera.ViewportSize.Y > 503 then
+		MainSize = UDim2.fromOffset(675, 424)
+		MinSize = UDim2.fromOffset(500, 42)
+	else
+		-- Use UDim2.fromScale for responsiveness
+		MainSize = UDim2.fromScale(0.8, 0.8)  -- 80% of viewport width and height
+		MinSize = UDim2.fromOffset(225, 42)  -- Fixed min width, adjust as needed
+	end
+	return MainSize, MinSize
 end
+local MainSize, MinSize = calculateSizes()
 
 local function Maximise(Window)
 	Window.Controls.ToggleSize.ImageLabel.Image = "rbxassetid://10137941941"
+	local MainSize, MinSize = calculateSizes()
 	tween(Window, {Size = MainSize})
 	Window.Elements.Visible = true
 	Window.Navigation.Visible = true
@@ -2215,6 +2234,7 @@ local function Minimize(Window)
 	Window.Controls.ToggleSize.ImageLabel.Image = "rbxassetid://11036884234"
 	Window.Elements.Visible = false
 	Window.Navigation.Visible = false
+	local MainSize, MinSize = calculateSizes()
 	tween(Window, {Size = MinSize})
 end
 
@@ -2265,9 +2285,12 @@ function Luna:CreateWindow(WindowSettings)
 	Main.Logo.Image = "rbxassetid://" .. WindowSettings.LogoID
 	Main.Visible = true
 	Main.BackgroundTransparency = 1
+	--print(Main.Size)
+	local MainSize, MinSize = calculateSizes()
 	Main.Size = MainSize
 	Main.Size = UDim2.fromOffset(Main.Size.X.Offset - 70, Main.Size.Y.Offset - 55)
 	Main.Parent.ShadowHolder.Size = Main.Size
+	--print(Main.Size)
 	LoadingFrame.Frame.Frame.Title.TextTransparency = 1
 	LoadingFrame.Frame.Frame.Subtitle.TextTransparency = 1
 	LoadingFrame.Version.TextTransparency = 1
@@ -2293,6 +2316,7 @@ function Luna:CreateWindow(WindowSettings)
 	end)
 	Main:GetPropertyChangedSignal("Size"):Connect(function()
 		Main.Parent.ShadowHolder.Size = Main.Size
+		--print(Main.Size)
 	end)
 
 	LoadingFrame.Visible = true
@@ -2321,140 +2345,146 @@ function Luna:CreateWindow(WindowSettings)
 
 	BlurModule(Main)
 
-	if WindowSettings.KeySystem then
-		local KeySettings = WindowSettings.KeySettings
-		
-		Draggable(Dragger, Main)
-		Draggable(LunaUI.MobileSupport, LunaUI.MobileSupport)
-		if dragBar then Draggable(dragInteract, Main, true, 255) end
+	--if WindowSettings.KeySystem then
+	--	local KeySettings = WindowSettings.KeySettings
 
-		if not WindowSettings.KeySettings then
-			Passthrough = true
-			return
-		end
-		
-		WindowSettings.KeySettings.FileName = "key"
+	--	Draggable(Dragger, Main)
+	--	Draggable(LunaUI.MobileSupport, LunaUI.MobileSupport)
+	--	if dragBar then Draggable(dragInteract, Main, true, 255) end
 
-		if typeof(WindowSettings.KeySettings.Key) == "string" then WindowSettings.KeySettings.Key = {WindowSettings.KeySettings.Key} end
+	--	if not WindowSettings.KeySettings then
+	--		Passthrough = true
+	--		return
+	--	end
 
-		local direc = WindowSettings.KeySettings.SaveInRoot and "Luna/Configurations/" .. WindowSettings.ConfigSettings.RootFolder .. "/" .. WindowSettings.ConfigSettings.ConfigFolder .. "/Key System/" or "Luna/Configurations/" ..  WindowSettings.ConfigSettings.ConfigFolder .. "/Key System/"
+	--	WindowSettings.KeySettings.FileName = "key"
 
-		if isfile and isfile(direc .. WindowSettings.KeySettings.FileName .. ".luna") then
-			for i, Key in ipairs(WindowSettings.KeySettings.Key) do
-				if string.find(readfile(direc .. WindowSettings.KeySettings.FileName .. ".luna"), Key) then
-					Passthrough = true
-					break
-				end
-			end
-		end
+	--	if typeof(WindowSettings.KeySettings.Key) == "string" then WindowSettings.KeySettings.Key = {WindowSettings.KeySettings.Key} end
 
-		if not Passthrough then
+	--	local direc = WindowSettings.KeySettings.SaveInRoot and "Luna/Configurations/" .. WindowSettings.ConfigSettings.RootFolder .. "/" .. WindowSettings.ConfigSettings.ConfigFolder .. "/Key System/" or "Luna/Configurations/" ..  WindowSettings.ConfigSettings.ConfigFolder .. "/Key System/"
 
-			local Btn = KeySystem.Action.Copy
-			local typesys = KeySettings.SecondAction.Type
-			
-			if typesys == "Discord" then
-				Btn = KeySystem.Action.Discord
-			end
+	--	if isfile and isfile(direc .. WindowSettings.KeySettings.FileName .. ".luna") then
+	--		for i, Key in ipairs(WindowSettings.KeySettings.Key) do
+	--			if string.find(readfile(direc .. WindowSettings.KeySettings.FileName .. ".luna"), Key) then
+	--				Passthrough = true
+	--				break
+	--			end
+	--		end
+	--	end
 
-			local AttemptsRemaining = math.random(2, 5)
+	--	if not Passthrough then
 
-			KeySystem.Visible = true
-			KeySystem.Title.Text = WindowSettings.KeySettings.Title
-			KeySystem.Subtitle.Text = WindowSettings.KeySettings.Subtitle
-			KeySystem.textshit.Text = WindowSettings.KeySettings.Note
+	--		local Btn = KeySystem.Action.Copy
+	--		local typesys = KeySettings.SecondAction.Type
 
-			if KeySettings.SecondAction.Enabled == true then
-				Btn.Visible = true
-			end
-			
-			Btn.Interact.MouseButton1Click:Connect(function()
-				if typesys == "Discord" then
-					setclipboard(tostring("https://discord.gg/"..KeySettings.SecondAction.Parameter)) -- Hunter if you see this I added copy also was too lazy to send u msg
-					if request then
-						request({
-							Url = 'http://127.0.0.1:6463/rpc?v=1',
-							Method = 'POST',
-							Headers = {
-								['Content-Type'] = 'application/json',
-								Origin = 'https://discord.com'
-							},
-							Body = HttpService:JSONEncode({
-								cmd = 'INVITE_BROWSER',
-								nonce = HttpService:GenerateGUID(false),
-								args = {code = KeySettings.SecondAction.Parameter}
-							})
-						})
-					end
-				else
-					setclipboard(tostring(KeySettings.SecondAction.Parameter))
-				end
-			end)
+	--		if typesys == "Discord" then
+	--			Btn = KeySystem.Action.Discord
+	--		end
 
-			KeySystem.Action.Submit.Interact.MouseButton1Click:Connect(function()
-				if #KeySystem.Input.InputBox.Text == 0 then return end
-				local KeyFound = false
-				local FoundKey = ''
-				for _, Key in ipairs(WindowSettings.KeySettings.Key) do
-					if KeySystem.Input.InputBox.Text == Key then
-						KeyFound = true
-						FoundKey = Key
-						break
-					end
-				end
-				if KeyFound then 
-					for _, instance in pairs(KeySystem:GetDescendants()) do
-						if instance.ClassName ~= "UICorner" and instance.ClassName ~= "UIPadding" then
-							if instance.ClassName ~= "UIStroke" then
-								tween(instance, {BackgroundTransparency = 1}, nil,TweenInfo.new(0.6, Enum.EasingStyle.Exponential))
-							end
-							if instance.ClassName == "ImageButton" then
-								tween(instance, {ImageTransparency = 1}, nil,TweenInfo.new(0.5, Enum.EasingStyle.Exponential))
-							end
-							if instance.ClassName == "TextLabel" then
-								tween(instance, {TextTransparency = 1}, nil,TweenInfo.new(0.4, Enum.EasingStyle.Exponential))
-							end
-							if instance.ClassName == "UIStroke" then
-								tween(instance, {Transparency = 1}, nil,TweenInfo.new(0.5, Enum.EasingStyle.Exponential))
-							end
-						end
-					end
-					tween(KeySystem, {BackgroundTransparency = 1}, nil,TweenInfo.new(0.6, Enum.EasingStyle.Exponential))
-					task.wait(0.51)
-					Passthrough = true
-					KeySystem.Visible = false
-					if WindowSettings.KeySettings.SaveKey then
-						if writefile then
-							writefile(direc .. WindowSettings.KeySettings.FileName .. ".luna", FoundKey)
-						end
-						Luna:Notification({Title = "Key System", Content = "The key for this script has been saved successfully.", Icon = "lock_open"})
-					end
-				else
-					if AttemptsRemaining == 0 then
+	--		local AttemptsRemaining = math.random(2, 5)
 
-						game.Players.LocalPlayer:Kick("No Attempts Remaining")
-						game:Shutdown()
-					end
-					KeySystem.Input.InputBox.Text = "Incorrect Key"
-					AttemptsRemaining = AttemptsRemaining - 1
-					task.wait(0.4)
-					KeySystem.Input.InputBox.Text = ""
-				end
-			end)
+	--		KeySystem.Visible = true
+	--		KeySystem.Title.Text = WindowSettings.KeySettings.Title
+	--		KeySystem.Subtitle.Text = WindowSettings.KeySettings.Subtitle
+	--		KeySystem.textshit.Text = WindowSettings.KeySettings.Note
 
-			KeySystem.Close.MouseButton1Click:Connect(function()
-				
-				Luna:Destroy()
-			end)
-		end
-	end
+	--		if KeySettings.SecondAction.Enabled == true then
+	--			Btn.Visible = true
+	--		end
 
-	if WindowSettings.KeySystem then
-		repeat task.wait() until Passthrough
-	end
+	--		Btn.Interact.MouseButton1Click:Connect(function()
+	--			if typesys == "Discord" then
+	--				setclipboard(tostring("https://discord.gg/"..KeySettings.SecondAction.Parameter)) -- Hunter if you see this I added copy also was too lazy to send u msg
+	--				if request then
+	--					request({
+	--						Url = 'http://127.0.0.1:6463/rpc?v=1',
+	--						Method = 'POST',
+	--						Headers = {
+	--							['Content-Type'] = 'application/json',
+	--							Origin = 'https://discord.com'
+	--						},
+	--						Body = HttpService:JSONEncode({
+	--							cmd = 'INVITE_BROWSER',
+	--							nonce = HttpService:GenerateGUID(false),
+	--							args = {code = KeySettings.SecondAction.Parameter}
+	--						})
+	--					})
+	--				end
+	--			else
+	--				setclipboard(tostring(KeySettings.SecondAction.Parameter))
+	--			end
+	--		end)
 
+	--		KeySystem.Action.Submit.Interact.MouseButton1Click:Connect(function()
+	--			if #KeySystem.Input.InputBox.Text == 0 then return end
+	--			local KeyFound = false
+	--			local FoundKey = ''
+	--			for _, Key in ipairs(WindowSettings.KeySettings.Key) do
+	--				if KeySystem.Input.InputBox.Text == Key then
+	--					KeyFound = true
+	--					FoundKey = Key
+	--					break
+	--				end
+	--			end
+	--			if KeyFound then 
+	--				for _, instance in pairs(KeySystem:GetDescendants()) do
+	--					if instance.ClassName ~= "UICorner" and instance.ClassName ~= "UIPadding" then
+	--						if instance.ClassName ~= "UIStroke" then
+	--							tween(instance, {BackgroundTransparency = 1}, nil,TweenInfo.new(0.6, Enum.EasingStyle.Exponential))
+	--						end
+	--						if instance.ClassName == "ImageButton" then
+	--							tween(instance, {ImageTransparency = 1}, nil,TweenInfo.new(0.5, Enum.EasingStyle.Exponential))
+	--						end
+	--						if instance.ClassName == "TextLabel" then
+	--							tween(instance, {TextTransparency = 1}, nil,TweenInfo.new(0.4, Enum.EasingStyle.Exponential))
+	--						end
+	--						if instance.ClassName == "UIStroke" then
+	--							tween(instance, {Transparency = 1}, nil,TweenInfo.new(0.5, Enum.EasingStyle.Exponential))
+	--						end
+	--					end
+	--				end
+	--				tween(KeySystem, {BackgroundTransparency = 1}, nil,TweenInfo.new(0.6, Enum.EasingStyle.Exponential))
+	--				task.wait(0.51)
+	--				Passthrough = true
+	--				KeySystem.Visible = false
+	--				if WindowSettings.KeySettings.SaveKey then
+	--					if writefile then
+	--						writefile(direc .. WindowSettings.KeySettings.FileName .. ".luna", FoundKey)
+	--					end
+	--					Luna:Notification({Title = "Key System", Content = "The key for this script has been saved successfully.", Icon = "lock_open"})
+	--				end
+	--			else
+	--				if AttemptsRemaining == 0 then
+
+	--					game.Players.LocalPlayer:Kick("No Attempts Remaining")
+	--					game:Shutdown()
+	--				end
+	--				KeySystem.Input.InputBox.Text = "Incorrect Key"
+	--				AttemptsRemaining = AttemptsRemaining - 1
+	--				task.wait(0.4)
+	--				KeySystem.Input.InputBox.Text = ""
+	--			end
+	--		end)
+
+	--		KeySystem.Close.MouseButton1Click:Connect(function()
+
+	--			Luna:Destroy()
+	--		end)
+	--	end
+	--end
+
+	--if WindowSettings.KeySystem then
+	--	repeat task.wait() until Passthrough
+	--end
+	local MainSize, MinSize = calculateSizes()
 	if WindowSettings.LoadingEnabled then
+
 		task.wait(0.3)
+		game:GetService("Lighting").DPT_ForLuna.Enabled = false
+		Main.Parent.ShadowHolder.Size = MainSize
+		Main.UIStroke.Enabled = false
+		--TweenService:Create(Main.Parent.ShadowHolder, TweenInfo.new(0.5, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = MainSize}):Play()
+		TweenService:Create(LoadingFrame, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Size = MainSize}):Play()
 		TweenService:Create(LoadingFrame.Frame.Frame.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()
 		TweenService:Create(LoadingFrame.Frame.ImageLabel, TweenInfo.new(0.3, Enum.EasingStyle.Exponential), {ImageTransparency = 0}):Play()
 		task.wait(0.05)
@@ -2473,7 +2503,8 @@ function Luna:CreateWindow(WindowSettings)
 		wait(0.3)
 		TweenService:Create(LoadingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {BackgroundTransparency = 1}):Play()
 	end
-
+	Main.UIStroke.Enabled = true
+	game:GetService("Lighting").DPT_ForLuna.Enabled = true
 	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {BackgroundTransparency = 0.2, Size = MainSize}):Play()
 	TweenService:Create(Main.Parent.ShadowHolder, TweenInfo.new(0.5, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = MainSize}):Play()
 	TweenService:Create(Main.Title.Title, TweenInfo.new(0.35, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
@@ -2547,35 +2578,42 @@ function Luna:CreateWindow(WindowSettings)
 		HomeTabPage.player.Text.Text = "Hello, " .. Players.LocalPlayer.DisplayName
 		HomeTabPage.player.user.Text = Players.LocalPlayer.Name .. " - ".. WindowSettings.Name
 
-		HomeTabPage.detailsholder.dashboard.Client.Title.Text = (isStudio and "Debugging (Studio)" or identifyexecutor()) or "Your Executor Does Not Support identifyexecutor."
-		for i,v in pairs(HomeTabSettings.SupportedExecutors) do
-			if isStudio then HomeTabPage.detailsholder.dashboard.Client.Subtitle.Text = "Luna Interface Suite - Debugging Mode" break end
-			if v == identifyexecutor() then
-				HomeTabPage.detailsholder.dashboard.Client.Subtitle.Text = "Your Executor Supports This Script."
-			else
-				HomeTabPage.detailsholder.dashboard.Client.Subtitle.Text = "Your Executor Isn't Officialy Supported By This Script."
-			end
-		end
+		--HomeTabPage.detailsholder.dashboard.Client.Title.Text = (isStudio and "Debugging (Studio)" or identifyexecutor()) or "Your Executor Does Not Support identifyexecutor."
+		--for i,v in pairs(HomeTabSettings.SupportedExecutors) do
+		--	if isStudio then HomeTabPage.detailsholder.dashboard.Client.Subtitle.Text = "Luna Interface Suite - Debugging Mode" break end
+		--	if v == identifyexecutor() then
+		--		HomeTabPage.detailsholder.dashboard.Client.Subtitle.Text = "Your Executor Supports This Script."
+		--	else
+		--		HomeTabPage.detailsholder.dashboard.Client.Subtitle.Text = "Your Executor Isn't Officialy Supported By This Script."
+		--	end
+		--end
 
 		-- Stolen From Sirius Stuff Begins Here
 
 		HomeTabPage.detailsholder.dashboard.Discord.Interact.MouseButton1Click:Connect(function()
-			setclipboard(tostring("https://discord.gg/"..HomeTabSettings.DiscordInvite)) -- Hunter if you see this I added copy also was too lazy to send u msg
-			if request then
-				request({
-					Url = 'http://127.0.0.1:6463/rpc?v=1',
-					Method = 'POST',
-					Headers = {
-						['Content-Type'] = 'application/json',
-						Origin = 'https://discord.com'
-					},
-					Body = HttpService:JSONEncode({
-						cmd = 'INVITE_BROWSER',
-						nonce = HttpService:GenerateGUID(false),
-						args = {code = HomeTabSettings.DiscordInvite}
-					})
-				})
-			end
+			--setclipboard(tostring("https://discord.gg/"..HomeTabSettings.DiscordInvite)) -- Hunter if you see this I added copy also was too lazy to send u msg
+			--if request then
+			--	request({
+			--		Url = 'http://127.0.0.1:6463/rpc?v=1',
+			--		Method = 'POST',
+			--		Headers = {
+			--			['Content-Type'] = 'application/json',
+			--			Origin = 'https://discord.com'
+			--		},
+			--		Body = HttpService:JSONEncode({
+			--			cmd = 'INVITE_BROWSER',
+			--			nonce = HttpService:GenerateGUID(false),
+			--			args = {code = HomeTabSettings.DiscordInvite}
+			--		})
+			--	})
+			--end
+
+			Luna:Notification({
+				Title = "Discord Invite",
+				Content = "Our Discord invite code is: " .. HomeTabSettings.DiscordInvite .. "\nPlease join us!",
+				Icon = "discord", -- Assuming you have a discord icon added or use a relevant one
+				ImageSource = "Material" -- Or your source
+			})
 		end)
 
 		local friendsCooldown = 0
@@ -2595,7 +2633,7 @@ function Luna:CreateWindow(WindowSettings)
 				while true do -- loop through all the pages
 					for _, data in list:GetCurrentPage() do
 						friendsInTotal +=1
-						table.insert(playersFriends, Data)
+						table.insert(playersFriends, data)
 					end
 
 					if list.IsFinished then
@@ -6133,276 +6171,276 @@ function Luna:CreateWindow(WindowSettings)
 		end
 
 
-		function Tab:BuildConfigSection()
-			if isStudio then
-				Tab:CreateLabel({Text = "Config system unavailable. (Environment isStudio)", Style = 3})
-				return "Config system unavailable." 
-			end
+		--function Tab:BuildConfigSection()
+		--	if isStudio then
+		--		Tab:CreateLabel({Text = "Config system unavailable. (Environment isStudio)", Style = 3})
+		--		return "Config system unavailable." 
+		--	end
 
-			local inputPath = nil
-			local selectedConfig = nil
+		--	local inputPath = nil
+		--	local selectedConfig = nil
 
-			local Title = Elements.Template.Title:Clone()
-			Title.Text = "Configurations"
-			Title.Visible = true
-			Title.Parent = TabPage
-			Title.TextTransparency = 1
-			TweenService:Create(Title, TweenInfo.new(0.4, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
+		--	local Title = Elements.Template.Title:Clone()
+		--	Title.Text = "Configurations"
+		--	Title.Visible = true
+		--	Title.Parent = TabPage
+		--	Title.TextTransparency = 1
+		--	TweenService:Create(Title, TweenInfo.new(0.4, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
 
-			Tab:CreateSection("Config Creator")
+		--	Tab:CreateSection("Config Creator")
 
-			Tab:CreateInput({
-				Name = "Config Name",
-				Description = "Insert a name for your to be created config.",
-				PlaceholderText = "Name",
-				CurrentValue = "",
-				Numeric = false,
-				MaxCharacters = nil,
-				Enter = false,
-				Callback = function(input)
-					inputPath = input
-				end,
-			})
+		--	Tab:CreateInput({
+		--		Name = "Config Name",
+		--		Description = "Insert a name for your to be created config.",
+		--		PlaceholderText = "Name",
+		--		CurrentValue = "",
+		--		Numeric = false,
+		--		MaxCharacters = nil,
+		--		Enter = false,
+		--		Callback = function(input)
+		--			inputPath = input
+		--		end,
+		--	})
 
-			local configSelection
+		--	local configSelection
 
-			Tab:CreateButton({
-				Name = "Create Config",
-				Description = "Create a config with all of your current settings.",
-				Callback = function()
-					if not inputPath or string.gsub(inputPath, " ", "") == "" then
-						Luna:Notification({
-							Title = "Interface",
-							Icon = "warning",
-							ImageSource = "Material",
-							Content = "Config name cannot be empty."
-						})
-						return
-					end
+		--	Tab:CreateButton({
+		--		Name = "Create Config",
+		--		Description = "Create a config with all of your current settings.",
+		--		Callback = function()
+		--			if not inputPath or string.gsub(inputPath, " ", "") == "" then
+		--				Luna:Notification({
+		--					Title = "Interface",
+		--					Icon = "warning",
+		--					ImageSource = "Material",
+		--					Content = "Config name cannot be empty."
+		--				})
+		--				return
+		--			end
 
-					local success, returned = Luna:SaveConfig(inputPath)
-					if not success then
-						Luna:Notification({
-							Title = "Interface",
-							Icon = "error",
-							ImageSource = "Material",
-							Content = "Unable to save config, return error: " .. returned
-						})
-					end
+		--			local success, returned = Luna:SaveConfig(inputPath)
+		--			if not success then
+		--				Luna:Notification({
+		--					Title = "Interface",
+		--					Icon = "error",
+		--					ImageSource = "Material",
+		--					Content = "Unable to save config, return error: " .. returned
+		--				})
+		--			end
 
-					Luna:Notification({
-						Title = "Interface",
-						Icon = "info",
-						ImageSource = "Material",
-						Content = string.format("Created config %q", inputPath),
-					})
+		--			Luna:Notification({
+		--				Title = "Interface",
+		--				Icon = "info",
+		--				ImageSource = "Material",
+		--				Content = string.format("Created config %q", inputPath),
+		--			})
 
-					configSelection:Set({ Options = Luna:RefreshConfigList() })
-				end
-			})
+		--			configSelection:Set({ Options = Luna:RefreshConfigList() })
+		--		end
+		--	})
 
-			Tab:CreateSection("Config Load/Settings")
+		--	Tab:CreateSection("Config Load/Settings")
 
 
-			configSelection = Tab:CreateDropdown({
-				Name = "Select Config",
-				Description = "Select a config to load your settings on.",
-				Options = Luna:RefreshConfigList(),
-				CurrentOption = {},
-				MultipleOptions = false,
-				SpecialType = nil,
-				Callback = function(Value)
-					selectedConfig = Value
-				end,
-			})
+		--	configSelection = Tab:CreateDropdown({
+		--		Name = "Select Config",
+		--		Description = "Select a config to load your settings on.",
+		--		Options = Luna:RefreshConfigList(),
+		--		CurrentOption = {},
+		--		MultipleOptions = false,
+		--		SpecialType = nil,
+		--		Callback = function(Value)
+		--			selectedConfig = Value
+		--		end,
+		--	})
 
-			Tab:CreateButton({
-				Name = "Load Config",
-				Description = "Load your saved config settings.",
-				Callback = function()
-					local success, returned = Luna:LoadConfig(selectedConfig)
-					if not success then
-						Luna:Notification({
-							Title = "Interface",
-							Icon = "error",
-							ImageSource = "Material",
-							Content = "Unable to load config, return error: " .. returned
-						})
-						return
-					end
+		--	Tab:CreateButton({
+		--		Name = "Load Config",
+		--		Description = "Load your saved config settings.",
+		--		Callback = function()
+		--			local success, returned = Luna:LoadConfig(selectedConfig)
+		--			if not success then
+		--				Luna:Notification({
+		--					Title = "Interface",
+		--					Icon = "error",
+		--					ImageSource = "Material",
+		--					Content = "Unable to load config, return error: " .. returned
+		--				})
+		--				return
+		--			end
 
-					Luna:Notification({
-						Title = "Interface",
-						Icon = "info",
-						ImageSource = "Material",
-						Content = string.format("Loaded config %q", selectedConfig),
-					})
-				end
-			})
+		--			Luna:Notification({
+		--				Title = "Interface",
+		--				Icon = "info",
+		--				ImageSource = "Material",
+		--				Content = string.format("Loaded config %q", selectedConfig),
+		--			})
+		--		end
+		--	})
 
-			Tab:CreateButton({
-				Name = "Overwrite Config",
-				Description = "Overwrite your current config settings.",
-				Callback = function()
-					local success, returned = Luna:SaveConfig(selectedConfig)
-					if not success then
-						Luna:Notification({
-							Title = "Interface",
-							Icon = "error",
-							ImageSource = "Material",
-							Content = "Unable to overwrite config, return error: " .. returned
-						})
-						return
-					end
+		--	Tab:CreateButton({
+		--		Name = "Overwrite Config",
+		--		Description = "Overwrite your current config settings.",
+		--		Callback = function()
+		--			local success, returned = Luna:SaveConfig(selectedConfig)
+		--			if not success then
+		--				Luna:Notification({
+		--					Title = "Interface",
+		--					Icon = "error",
+		--					ImageSource = "Material",
+		--					Content = "Unable to overwrite config, return error: " .. returned
+		--				})
+		--				return
+		--			end
 
-					Luna:Notification({
-						Title = "Interface",
-						Icon = "info",
-						ImageSource = "Material",
-						Content = string.format("Overwrote config %q", selectedConfig),
-					})
-				end
-			})
+		--			Luna:Notification({
+		--				Title = "Interface",
+		--				Icon = "info",
+		--				ImageSource = "Material",
+		--				Content = string.format("Overwrote config %q", selectedConfig),
+		--			})
+		--		end
+		--	})
 
-			Tab:CreateButton({
-				Name = "Refresh Config List",
-				Description = "Refresh the current config list.",
-				Callback = function()
-					configSelection:Set({ Options = Luna:RefreshConfigList() })
-				end,
-			})
+		--	Tab:CreateButton({
+		--		Name = "Refresh Config List",
+		--		Description = "Refresh the current config list.",
+		--		Callback = function()
+		--			configSelection:Set({ Options = Luna:RefreshConfigList() })
+		--		end,
+		--	})
 
-			local loadlabel
-			Tab:CreateButton({
-				Name = "Set as autoload",
-				Description = "Set a config to auto load setting in your next session.",
-				Callback = function()
-					local name = selectedConfig
-					writefile(Luna.Folder .. "/settings/autoload.txt", name)
-					loadlabel:Set({ Text = "Current autoload config: " .. name })
+		--	local loadlabel
+		--	Tab:CreateButton({
+		--		Name = "Set as autoload",
+		--		Description = "Set a config to auto load setting in your next session.",
+		--		Callback = function()
+		--			local name = selectedConfig
+		--			writefile(Luna.Folder .. "/settings/autoload.txt", name)
+		--			loadlabel:Set({ Text = "Current autoload config: " .. name })
 
-					Luna:Notification({
-						Title = "Interface",
-						Icon = "info",
-						ImageSource = "Material",
-						Content = string.format("Set %q to auto load", name),
-					})
-				end,
-			})
+		--			Luna:Notification({
+		--				Title = "Interface",
+		--				Icon = "info",
+		--				ImageSource = "Material",
+		--				Content = string.format("Set %q to auto load", name),
+		--			})
+		--		end,
+		--	})
 
-			loadlabel = Tab:CreateParagraph({
-				Title = "Current Auto Load",
-				Text = "None"
-			})
+		--	loadlabel = Tab:CreateParagraph({
+		--		Title = "Current Auto Load",
+		--		Text = "None"
+		--	})
 
-			Tab:CreateButton({
-				Name = "Delete Autoload",
-				Description = "Delete The Autoload File",
-				Callback = function()
-					local name = selectedConfig
-					delfile(Luna.Folder .. "/settings/autoload.txt")
-					loadlabel:Set({ Text = "None" })
+		--	Tab:CreateButton({
+		--		Name = "Delete Autoload",
+		--		Description = "Delete The Autoload File",
+		--		Callback = function()
+		--			local name = selectedConfig
+		--			delfile(Luna.Folder .. "/settings/autoload.txt")
+		--			loadlabel:Set({ Text = "None" })
 
-					Luna:Notification({
-						Title = "Interface",
-						Icon = "info",
-						ImageSource = "Material",
-						Content = "Deleted Autoload",
-					})
-				end,
-			})
+		--			Luna:Notification({
+		--				Title = "Interface",
+		--				Icon = "info",
+		--				ImageSource = "Material",
+		--				Content = "Deleted Autoload",
+		--			})
+		--		end,
+		--	})
 
-			if isfile(Luna.Folder .. "/settings/autoload.txt") then
-				local name = readfile(Luna.Folder .. "/settings/autoload.txt")
-				loadlabel:Set( { Text = "Current autoload config: " .. name })
-			end     
-		end
+		--	if isfile(Luna.Folder .. "/settings/autoload.txt") then
+		--		local name = readfile(Luna.Folder .. "/settings/autoload.txt")
+		--		loadlabel:Set( { Text = "Current autoload config: " .. name })
+		--	end     
+		--end
 
-		local ClassParser = {
-			["Toggle"] = {
-				Save = function(Flag, data)
-					return {
-						type = "Toggle", 
-						flag = Flag, 
-						state = data.CurrentValue or false
-					}
-				end,
-				Load = function(Flag, data)
-					if Luna.Options[Flag] then
-						Luna.Options[Flag]:Set({ CurrentValue = data.state })
-					end
-				end
-			},
-			["Slider"] = {
-				Save = function(Flag, data)
-					return {
-						type = "Slider", 
-						flag = Flag, 
-						value = (data.CurrentValue and tostring(data.CurrentValue)),
-					}
-				end,
-				Load = function(Flag, data)
-					if Luna.Options[Flag] and data.value then
-						Luna.Options[Flag]:Set({ CurrentValue = data.value })
-					end
-				end
-			},
-			["Input"] = {
-				Save = function(Flag, data)
-					return {
-						type = "Input", 
-						flag = Flag, 
-						text = data.CurrentValue
-					}
-				end,
-				Load = function(Flag, data)
-					if Luna.Options[Flag] and data.text and type(data.text) == "string" then
-						Luna.Options[Flag]:Set({ CurrentValue = data.text })
-					end
-				end
-			},
-			["Dropdown"] = {
-				Save = function(Flag, data)
-					return {
-						type = "Dropdown", 
-						flag = Flag, 
-						value = data.CurrentOption
-					}
-				end,
-				Load = function(Flag, data)
-					if Luna.Options[Flag] and data.value then
-						Luna.Options[Flag]:Set({ CurrentOption = data.value })
-					end
-				end
-			},
-			-- buggy as hell stil
-			["Colorpicker"] = {
-				Save = function(Flag, data)
-					local function Color3ToHex(color)
-						return string.format("#%02X%02X%02X", math.floor(color.R * 255), math.floor(color.G * 255), math.floor(color.B * 255))
-					end
+		--local ClassParser = {
+		--	["Toggle"] = {
+		--		Save = function(Flag, data)
+		--			return {
+		--				type = "Toggle", 
+		--				flag = Flag, 
+		--				state = data.CurrentValue or false
+		--			}
+		--		end,
+		--		Load = function(Flag, data)
+		--			if Luna.Options[Flag] then
+		--				Luna.Options[Flag]:Set({ CurrentValue = data.state })
+		--			end
+		--		end
+		--	},
+		--	["Slider"] = {
+		--		Save = function(Flag, data)
+		--			return {
+		--				type = "Slider", 
+		--				flag = Flag, 
+		--				value = (data.CurrentValue and tostring(data.CurrentValue)),
+		--			}
+		--		end,
+		--		Load = function(Flag, data)
+		--			if Luna.Options[Flag] and data.value then
+		--				Luna.Options[Flag]:Set({ CurrentValue = data.value })
+		--			end
+		--		end
+		--	},
+		--	["Input"] = {
+		--		Save = function(Flag, data)
+		--			return {
+		--				type = "Input", 
+		--				flag = Flag, 
+		--				text = data.CurrentValue
+		--			}
+		--		end,
+		--		Load = function(Flag, data)
+		--			if Luna.Options[Flag] and data.text and type(data.text) == "string" then
+		--				Luna.Options[Flag]:Set({ CurrentValue = data.text })
+		--			end
+		--		end
+		--	},
+		--	["Dropdown"] = {
+		--		Save = function(Flag, data)
+		--			return {
+		--				type = "Dropdown", 
+		--				flag = Flag, 
+		--				value = data.CurrentOption
+		--			}
+		--		end,
+		--		Load = function(Flag, data)
+		--			if Luna.Options[Flag] and data.value then
+		--				Luna.Options[Flag]:Set({ CurrentOption = data.value })
+		--			end
+		--		end
+		--	},
+		--	-- buggy as hell stil
+		--	["Colorpicker"] = {
+		--		Save = function(Flag, data)
+		--			local function Color3ToHex(color)
+		--				return string.format("#%02X%02X%02X", math.floor(color.R * 255), math.floor(color.G * 255), math.floor(color.B * 255))
+		--			end
 
-					return {
-						type = "Colorpicker", 
-						flag = Flag, 
-						color = Color3ToHex(data.Color) or nil,
-						alpha = data.Alpha
-					}
-				end,
-				Load = function(Flag, data)
-					local function HexToColor3(hex)
-						local r = tonumber(hex:sub(2, 3), 16) / 255
-						local g = tonumber(hex:sub(4, 5), 16) / 255
-						local b = tonumber(hex:sub(6, 7), 16) / 255
-						return Color3.new(r, g, b)
-					end
+		--			return {
+		--				type = "Colorpicker", 
+		--				flag = Flag, 
+		--				color = Color3ToHex(data.Color) or nil,
+		--				alpha = data.Alpha
+		--			}
+		--		end,
+		--		Load = function(Flag, data)
+		--			local function HexToColor3(hex)
+		--				local r = tonumber(hex:sub(2, 3), 16) / 255
+		--				local g = tonumber(hex:sub(4, 5), 16) / 255
+		--				local b = tonumber(hex:sub(6, 7), 16) / 255
+		--				return Color3.new(r, g, b)
+		--			end
 
-					if Luna.Options[Flag] and data.color then
-						Luna.Options[Flag]:Set({Color = HexToColor3(data.color)})
-					end
-				end
-			}
-		}
+		--			if Luna.Options[Flag] and data.color then
+		--				Luna.Options[Flag]:Set({Color = HexToColor3(data.color)})
+		--			end
+		--		end
+		--	}
+		--}
 
 
 		function Tab:BuildThemeSection()
@@ -6476,275 +6514,276 @@ function Luna:CreateWindow(WindowSettings)
 		end
 
 
-		local function BuildFolderTree()
-			if isStudio then return "Config system unavailable." end
-			local paths = {
-				Luna.Folder,
-				Luna.Folder .. "/settings"
-			}
+		--local function BuildFolderTree()
+		--	if isStudio then return "Config system unavailable." end
+		--	local paths = {
+		--		Luna.Folder,
+		--		Luna.Folder .. "/settings"
+		--	}
 
-			for i = 1, #paths do
-				local str = paths[i]
-				if not isfolder(str) then
-					makefolder(str)
-				end
+		--	for i = 1, #paths do
+		--		local str = paths[i]
+		--		if not isfolder(str) then
+		--			makefolder(str)
+		--		end
+		--	end
+		--end
+
+		--local function SetFolder()
+
+		--	if isStudio then return "Config system unavailable." end
+
+		--	if WindowSettings.ConfigSettings.RootFolder ~= nil and WindowSettings.ConfigSettings.RootFolder ~= "" then
+		--		Luna.Folder = WindowSettings.ConfigSettings.RootFolder .. "/" .. WindowSettings.ConfigSettings.ConfigFolder
+		--	else
+		--		Luna.Folder = WindowSettings.ConfigSettings.ConfigFolder
+		--	end
+
+		--	BuildFolderTree()
+		--end
+
+		--SetFolder()
+
+		--	function Luna:SaveConfig(Path)
+		--		if isStudio then return "Config system unavailable." end
+
+		--		if (not Path) then
+		--			return false, "Please select a config file."
+		--		end
+
+		--		local fullPath = Luna.Folder .. "/settings/" .. Path .. ".luna"
+
+		--		local data = {
+		--			objects = {}
+		--		}
+
+		--		for flag, option in next, Luna.Options do
+		--			if not ClassParser[option.Class] then continue end
+		--			if option.IgnoreConfig then continue end
+
+		--			table.insert(data.objects, ClassParser[option.Class].Save(flag, option))
+		--		end	
+
+		--		local success, encoded = pcall(HttpService.JSONEncode, HttpService, data)
+		--		if not success then
+		--			return false, "Unable to encode into JSON data"
+		--		end
+
+		--		writefile(fullPath, encoded)
+		--		return true
+		--	end
+
+		--	function Luna:LoadConfig(Path)
+		--		if isStudio then return "Config system unavailable." end
+
+		--		if (not Path) then
+		--			return false, "Please select a config file."
+		--		end
+
+		--		local file = Luna.Folder .. "/settings/" .. Path .. ".luna"
+		--		if not isfile(file) then return false, "Invalid file" end
+
+		--		local success, decoded = pcall(HttpService.JSONDecode, HttpService, readfile(file))
+		--		if not success then return false, "Unable to decode JSON data." end
+
+		--		for _, option in next, decoded.objects do
+		--			if ClassParser[option.type] then
+		--				task.spawn(function() 
+		--					ClassParser[option.type].Load(option.flag, option) 
+		--				end)
+		--			end
+		--		end
+
+		--		return true
+		--	end
+
+		--	function Luna:LoadAutoloadConfig()
+		--		if isfile(Luna.Folder .. "/settings/autoload.txt") then
+
+		--			if isStudio then return "Config system unavailable." end
+
+		--			local name = readfile(Luna.Folder .. "/settings/autoload.txt")
+
+		--			local success, err = Luna:LoadConfig(name)
+		--			if not success then
+		--				return Luna:Notification({
+		--					Title = "Interface",
+		--					Icon = "sparkle",
+		--					ImageSource = "Material",
+		--					Content = "Failed to load autoload config: " .. err,
+		--				})
+		--			end
+
+		--			Luna:Notification({
+		--				Title = "Interface",
+		--				Icon = "sparkle",
+		--				ImageSource = "Material",
+		--				Content = string.format("Auto loaded config %q", name),
+		--			})
+
+		--		end 
+		--	end
+
+		--	function Luna:RefreshConfigList()
+		--		if isStudio then return "Config system unavailable." end
+
+		--		local list = listfiles(Luna.Folder .. "/settings")
+
+		--		local out = {}
+		--		for i = 1, #list do
+		--			local file = list[i]
+		--			if file:sub(-5) == ".luna" then
+		--				local pos = file:find(".luna", 1, true)
+		--				local start = pos
+
+		--				local char = file:sub(pos, pos)
+		--				while char ~= "/" and char ~= "\\" and char ~= "" do
+		--					pos = pos - 1
+		--					char = file:sub(pos, pos)
+		--				end
+
+		--				if char == "/" or char == "\\" then
+		--					local name = file:sub(pos + 1, start - 1)
+		--					if name ~= "options" then
+		--						table.insert(out, name)
+		--					end
+		--				end
+		--			end
+		--		end
+
+		--		return out
+		--	end
+		--	return Tab
+		--end
+
+
+		Elements.Parent.Visible = true
+		tween(Elements.Parent, {BackgroundTransparency = 0.1})
+		Navigation.Visible = true
+		tween(Navigation.Line, {BackgroundTransparency = 0})
+
+		for _, TopbarButton in ipairs(Main.Controls:GetChildren()) do
+			if TopbarButton.ClassName == "Frame" and TopbarButton.Name ~= "Theme" then
+				TopbarButton.Visible = true
+				tween(TopbarButton, {BackgroundTransparency = 0.25})
+				tween(TopbarButton.UIStroke, {Transparency = 0.5})
+				tween(TopbarButton.ImageLabel, {ImageTransparency = 0.25})
 			end
 		end
 
-		local function SetFolder()
+		Main.Controls.Close.ImageLabel.MouseButton1Click:Connect(function()
+			Hide(Main, Window.Bind, true)
+			dragBar.Visible = false
+			Window.State = false
+			if UserInputService.KeyboardEnabled == false then
+				LunaUI.MobileSupport.Visible = true
+			end
+		end)
+		Main.Controls.Close["MouseEnter"]:Connect(function()
+			tween(Main.Controls.Close.ImageLabel, {ImageColor3 = Color3.new(1,1,1)})
+		end)
+		Main.Controls.Close["MouseLeave"]:Connect(function()
+			tween(Main.Controls.Close.ImageLabel, {ImageColor3 = Color3.fromRGB(195,195,195)})
+		end)
 
-			if isStudio then return "Config system unavailable." end
+		UserInputService.InputBegan:Connect(function(input, gpe)
+			if gpe then return end
+			if Window.State then return end
+			if input.KeyCode == Window.Bind then
+				Unhide(Main, Window.CurrentTab)
+				LunaUI.MobileSupport.Visible = false
+				dragBar.Visible = true
+				Window.State = true
+			end
+		end)
 
-			if WindowSettings.ConfigSettings.RootFolder ~= nil and WindowSettings.ConfigSettings.RootFolder ~= "" then
-				Luna.Folder = WindowSettings.ConfigSettings.RootFolder .. "/" .. WindowSettings.ConfigSettings.ConfigFolder
+		Main.Logo.MouseButton1Click:Connect(function()
+			if Navigation.Size.X.Offset == 205 then
+				tween(Elements.Parent, {Size = UDim2.new(1, -55, Elements.Parent.Size.Y.Scale, Elements.Parent.Size.Y.Offset)})
+				tween(Navigation, {Size = UDim2.new(Navigation.Size.X.Scale, 55, Navigation.Size.Y.Scale, Navigation.Size.Y.Offset)})
 			else
-				Luna.Folder = WindowSettings.ConfigSettings.ConfigFolder
+				tween(Elements.Parent, {Size = UDim2.new(1, -205, Elements.Parent.Size.Y.Scale, Elements.Parent.Size.Y.Offset)})
+				tween(Navigation, {Size = UDim2.new(Navigation.Size.X.Scale, 205, Navigation.Size.Y.Scale, Navigation.Size.Y.Offset)})
 			end
+		end)
 
-			BuildFolderTree()
-		end
-
-		SetFolder()
-
-		function Luna:SaveConfig(Path)
-			if isStudio then return "Config system unavailable." end
-
-			if (not Path) then
-				return false, "Please select a config file."
+		Main.Controls.ToggleSize.ImageLabel.MouseButton1Click:Connect(function()
+			Window.Size = not Window.Size
+			if Window.Size then
+				Minimize(Main)
+				dragBar.Visible = false
+			else
+				Maximise(Main)
+				dragBar.Visible = true
 			end
+		end)
+		Main.Controls.ToggleSize["MouseEnter"]:Connect(function()
+			tween(Main.Controls.ToggleSize.ImageLabel, {ImageColor3 = Color3.new(1,1,1)})
+		end)
+		Main.Controls.ToggleSize["MouseLeave"]:Connect(function()
+			tween(Main.Controls.ToggleSize.ImageLabel, {ImageColor3 = Color3.fromRGB(195,195,195)})
+		end)
 
-			local fullPath = Luna.Folder .. "/settings/" .. Path .. ".luna"
-
-			local data = {
-				objects = {}
-			}
-
-			for flag, option in next, Luna.Options do
-				if not ClassParser[option.Class] then continue end
-				if option.IgnoreConfig then continue end
-
-				table.insert(data.objects, ClassParser[option.Class].Save(flag, option))
-			end	
-
-			local success, encoded = pcall(HttpService.JSONEncode, HttpService, data)
-			if not success then
-				return false, "Unable to encode into JSON data"
+		Main.Controls.Theme.ImageLabel.MouseButton1Click:Connect(function()
+			if Window.Settings then
+				Window.Settings:Activate()
+				Elements.Settings.CanvasPosition = Vector2.new(0,698)
 			end
-
-			writefile(fullPath, encoded)
-			return true
-		end
-
-		function Luna:LoadConfig(Path)
-			if isStudio then return "Config system unavailable." end
-
-			if (not Path) then
-				return false, "Please select a config file."
-			end
-
-			local file = Luna.Folder .. "/settings/" .. Path .. ".luna"
-			if not isfile(file) then return false, "Invalid file" end
-
-			local success, decoded = pcall(HttpService.JSONDecode, HttpService, readfile(file))
-			if not success then return false, "Unable to decode JSON data." end
-
-			for _, option in next, decoded.objects do
-				if ClassParser[option.type] then
-					task.spawn(function() 
-						ClassParser[option.type].Load(option.flag, option) 
-					end)
-				end
-			end
-
-			return true
-		end
-
-		function Luna:LoadAutoloadConfig()
-			if isfile(Luna.Folder .. "/settings/autoload.txt") then
-
-				if isStudio then return "Config system unavailable." end
-
-				local name = readfile(Luna.Folder .. "/settings/autoload.txt")
-
-				local success, err = Luna:LoadConfig(name)
-				if not success then
-					return Luna:Notification({
-						Title = "Interface",
-						Icon = "sparkle",
-						ImageSource = "Material",
-						Content = "Failed to load autoload config: " .. err,
-					})
-				end
-
-				Luna:Notification({
-					Title = "Interface",
-					Icon = "sparkle",
-					ImageSource = "Material",
-					Content = string.format("Auto loaded config %q", name),
-				})
-
-			end 
-		end
-
-		function Luna:RefreshConfigList()
-			if isStudio then return "Config system unavailable." end
-
-			local list = listfiles(Luna.Folder .. "/settings")
-
-			local out = {}
-			for i = 1, #list do
-				local file = list[i]
-				if file:sub(-5) == ".luna" then
-					local pos = file:find(".luna", 1, true)
-					local start = pos
-
-					local char = file:sub(pos, pos)
-					while char ~= "/" and char ~= "\\" and char ~= "" do
-						pos = pos - 1
-						char = file:sub(pos, pos)
-					end
-
-					if char == "/" or char == "\\" then
-						local name = file:sub(pos + 1, start - 1)
-						if name ~= "options" then
-							table.insert(out, name)
-						end
-					end
-				end
-			end
-
-			return out
-		end
-		return Tab
-	end
+		end)
+		Main.Controls.Theme["MouseEnter"]:Connect(function()
+			tween(Main.Controls.Theme.ImageLabel, {ImageColor3 = Color3.new(1,1,1)})
+		end)
+		Main.Controls.Theme["MouseLeave"]:Connect(function()
+			tween(Main.Controls.Theme.ImageLabel, {ImageColor3 = Color3.fromRGB(195,195,195)})
+		end)	
 
 
-	Elements.Parent.Visible = true
-	tween(Elements.Parent, {BackgroundTransparency = 0.1})
-	Navigation.Visible = true
-	tween(Navigation.Line, {BackgroundTransparency = 0})
-
-	for _, TopbarButton in ipairs(Main.Controls:GetChildren()) do
-		if TopbarButton.ClassName == "Frame" and TopbarButton.Name ~= "Theme" then
-			TopbarButton.Visible = true
-			tween(TopbarButton, {BackgroundTransparency = 0.25})
-			tween(TopbarButton.UIStroke, {Transparency = 0.5})
-			tween(TopbarButton.ImageLabel, {ImageTransparency = 0.25})
-		end
-	end
-
-	Main.Controls.Close.ImageLabel.MouseButton1Click:Connect(function()
-		Hide(Main, Window.Bind, true)
-		dragBar.Visible = false
-		Window.State = false
-		if UserInputService.KeyboardEnabled == false then
-			LunaUI.MobileSupport.Visible = true
-		end
-	end)
-	Main.Controls.Close["MouseEnter"]:Connect(function()
-		tween(Main.Controls.Close.ImageLabel, {ImageColor3 = Color3.new(1,1,1)})
-	end)
-	Main.Controls.Close["MouseLeave"]:Connect(function()
-		tween(Main.Controls.Close.ImageLabel, {ImageColor3 = Color3.fromRGB(195,195,195)})
-	end)
-
-	UserInputService.InputBegan:Connect(function(input, gpe)
-		if gpe then return end
-		if Window.State then return end
-		if input.KeyCode == Window.Bind then
+		LunaUI.MobileSupport.Interact.MouseButton1Click:Connect(function()
 			Unhide(Main, Window.CurrentTab)
-			LunaUI.MobileSupport.Visible = false
 			dragBar.Visible = true
 			Window.State = true
+			LunaUI.MobileSupport.Visible = false
+		end)
+
+		return Tab --Window
+	end
+
+	function Luna:Destroy()
+		Main.Visible = false
+		for _, Notification in ipairs(Notifications:GetChildren()) do
+			if Notification.ClassName == "Frame" then
+				Notification.Visible = false
+				Notification:Destroy()
+			end
 		end
-	end)
-
-	Main.Logo.MouseButton1Click:Connect(function()
-		if Navigation.Size.X.Offset == 205 then
-			tween(Elements.Parent, {Size = UDim2.new(1, -55, Elements.Parent.Size.Y.Scale, Elements.Parent.Size.Y.Offset)})
-			tween(Navigation, {Size = UDim2.new(Navigation.Size.X.Scale, 55, Navigation.Size.Y.Scale, Navigation.Size.Y.Offset)})
-		else
-			tween(Elements.Parent, {Size = UDim2.new(1, -205, Elements.Parent.Size.Y.Scale, Elements.Parent.Size.Y.Offset)})
-			tween(Navigation, {Size = UDim2.new(Navigation.Size.X.Scale, 205, Navigation.Size.Y.Scale, Navigation.Size.Y.Offset)})
-		end
-	end)
-
-	Main.Controls.ToggleSize.ImageLabel.MouseButton1Click:Connect(function()
-		Window.Size = not Window.Size
-		if Window.Size then
-			Minimize(Main)
-			dragBar.Visible = false
-		else
-			Maximise(Main)
-			dragBar.Visible = true
-		end
-	end)
-	Main.Controls.ToggleSize["MouseEnter"]:Connect(function()
-		tween(Main.Controls.ToggleSize.ImageLabel, {ImageColor3 = Color3.new(1,1,1)})
-	end)
-	Main.Controls.ToggleSize["MouseLeave"]:Connect(function()
-		tween(Main.Controls.ToggleSize.ImageLabel, {ImageColor3 = Color3.fromRGB(195,195,195)})
-	end)
-
-	Main.Controls.Theme.ImageLabel.MouseButton1Click:Connect(function()
-		if Window.Settings then
-			Window.Settings:Activate()
-			Elements.Settings.CanvasPosition = Vector2.new(0,698)
-		end
-	end)
-	Main.Controls.Theme["MouseEnter"]:Connect(function()
-		tween(Main.Controls.Theme.ImageLabel, {ImageColor3 = Color3.new(1,1,1)})
-	end)
-	Main.Controls.Theme["MouseLeave"]:Connect(function()
-		tween(Main.Controls.Theme.ImageLabel, {ImageColor3 = Color3.fromRGB(195,195,195)})
-	end)	
-
-
-	LunaUI.MobileSupport.Interact.MouseButton1Click:Connect(function()
-		Unhide(Main, Window.CurrentTab)
-		dragBar.Visible = true
-		Window.State = true
-		LunaUI.MobileSupport.Visible = false
-	end)
-
+		LunaUI:Destroy()
+	end
 	return Window
 end
+--if isStudio then
+	--local Window = Luna:CreateWindow({
+	--	Name = "Nebula Client - Luna Hub | Blade Ball",
+	--	Subtitle = "by Nebula Softworks",
+	--	LogoID = "123795201100198",
+	--	LoadingEnabled = true,
+	--	LoadingTitle = "Nebula Client (Luna Hub)",
+	--	LoadingSubtitle = "Loading script for Blade Ball",
+	--	KeySystem = true,
+	--	KeySettings = {
+	--		Title = "Nebula Client | Key System",
+	--		Subtitle = "Blade Ball",
+	--		Note = "Please Enter Your Key To Use Nebula Client",
+	--		FileName = "Key", -- the name of the key file. this will be saved in ur RootFolder. However, if you don't have one, it'll save in ur config folder instead
+	--		SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+	--		Key = {"Example Key"}, -- List of keys that will be accepted by the system, please use a system like Pelican or Luarmor that provide key strings based on your HWID since putting a simple string is very easy to bypass
+	--		SecondAction = {
+	--			Enabled = true,
+	--			Type = "Link", -- Link/Discord
+	--			Parameter = "" -- for discord, add the invite link like home tab. for link, type the link of ur key sys
+	--		}
+	--	}
+	--})
 
-function Luna:Destroy()
-	Main.Visible = false
-	for _, Notification in ipairs(Notifications:GetChildren()) do
-		if Notification.ClassName == "Frame" then
-			Notification.Visible = false
-			Notification:Destroy()
-		end
-	end
-	LunaUI:Destroy()
-end
-
-if isStudio then
-	local Window = Luna:CreateWindow({
-		Name = "Nebula Client - Luna Hub | Blade Ball",
-		Subtitle = "by Nebula Softworks",
-		LogoID = "123795201100198",
-		LoadingEnabled = true,
-		LoadingTitle = "Nebula Client (Luna Hub)",
-		LoadingSubtitle = "Loading script for Blade Ball",
-		KeySystem = true,
-		KeySettings = {
-			Title = "Nebula Client | Key System",
-			Subtitle = "Blade Ball",
-			Note = "Please Enter Your Key To Use Nebula Client",
-			FileName = "Key", -- the name of the key file. this will be saved in ur RootFolder. However, if you don't have one, it'll save in ur config folder instead
-			SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-			Key = {"Example Key"}, -- List of keys that will be accepted by the system, please use a system like Pelican or Luarmor that provide key strings based on your HWID since putting a simple string is very easy to bypass
-			SecondAction = {
-				Enabled = true,
-				Type = "Link", -- Link/Discord
-				Parameter = "" -- for discord, add the invite link like home tab. for link, type the link of ur key sys
-			}
-		}
-	})
-	
 	--[[local Window = Luna:CreateWindow({
 		Name = "Luna Example Window",
 		Subtitle = "Test",
@@ -6931,7 +6970,7 @@ if isStudio then
 
 	Tabs.Premium:BuildConfigSection()
 	Tabs.Premium:BuildThemeSection()]]
-end
+--end
 
 -- THIS IS THE DEBUG DEMO, ONLY USED WHEN TESTING NEW ELEMENTS AND CODE
 --[[if isStudio then
