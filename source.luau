@@ -21,7 +21,9 @@ Latte Softworks and qweery | Lucide Icons And Material Icons
 kirill9655 | Loading Circle
 Deity/dp4pv/x64x70 | Certain Scripting and Testing ig
 
+
 mangofp | fixes
+
 ]]
 
 local Release = "Prerelease Beta 6.1"
@@ -1531,7 +1533,8 @@ local IconModule = {
 		["fitness_center"] = "http://www.roblox.com/asset/?id=6035121907";
 		["baby_changing_station"] = "http://www.roblox.com/asset/?id=6035107930";
 		["fire_extinguisher"] = "http://www.roblox.com/asset/?id=6035121913";
-		["sparkle"] = "http://www.roblox.com/asset/?id=4483362748"
+		["sparkle"] = "http://www.roblox.com/asset/?id=4483362748";
+		["discord"] = "http://www.roblox.com/asset/?id=18505728201"
 	}
 }
 
